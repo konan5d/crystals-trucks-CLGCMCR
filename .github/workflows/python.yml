@@ -5,11 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     # Verifiation de l'os et de la version de Python
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
