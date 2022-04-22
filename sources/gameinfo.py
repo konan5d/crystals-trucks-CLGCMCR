@@ -74,8 +74,8 @@ class GameInfo:
 
         return f_output
 
-    def init_truck(self):
-        pass
+    def init_truck(self, id, x, y):
+        return Truck(id, x, y)
 
     def run(self):
         raw_data = self.read_initiale_information()
