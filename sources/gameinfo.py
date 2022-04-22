@@ -75,6 +75,7 @@ class GameInfo:
         return f_output
 
     def run(self):
+        """Test"""
         raw_data = self.read_initiale_information()
         # Parse data to get game info
         parse = Parse(raw_data)
