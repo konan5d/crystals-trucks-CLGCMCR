@@ -24,7 +24,7 @@ class Parse:
         map_idx_start = self.data_to_parse.index("### Grid ###")
         map_idx_end = self.data_to_parse.index("### End Grid ###")
 
-        tmp_map = self.data_to_parse[map_idx_start + 1 : map_idx_end]
+        tmp_map = self.data_to_parse[map_idx_start + 1: map_idx_end]
 
         for y in tmp_map:
             _map.append(split(y))
