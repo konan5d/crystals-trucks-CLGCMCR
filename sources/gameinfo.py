@@ -77,6 +77,9 @@ class GameInfo:
     def init_truck(self, id, x, y):
         return Truck(id, x, y)
 
+    def init_all_trucks(self):
+        self.trucks.append(self.init_truck(0, 0, 0))
+
     def run(self):
         raw_data = self.read_initiale_information()
         # Parse data to get game info
