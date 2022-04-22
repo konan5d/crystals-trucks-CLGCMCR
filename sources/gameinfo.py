@@ -24,7 +24,7 @@ class GameInfo:
         print(f_output)
 
         return f_output
-      
+        
     def save_actions(self, actionsFileName, actions):
         """Enregistrement des actions dans un fichier"""
         # Check existance
@@ -76,4 +76,3 @@ if __name__ == "__main__":
 
     gi = GameInfo(args.game_number, args.output_file)
     gi.run()
-    
