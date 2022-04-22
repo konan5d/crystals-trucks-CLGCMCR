@@ -89,6 +89,27 @@ def parse_argument():
     return args
 
 
+class Truck:
+    """Class contenant toutes les informations des camions"""
+
+    def __init__(self, x, y) -> None:
+        """Constructeur de la class"""
+        self.pos_x = x
+        self.pos_y = y
+        
+        # self.nb_trucks = 0
+
+    def action_move(self, x, y):
+
+        action = "MOVE" + x + y
+
+        return action 
+
+    def action_dig (self, x, y):
+
+        dig = "DIG" + x + y
+
+
 if __name__ == "__main__":
 
     args = parse_argument()
