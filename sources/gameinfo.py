@@ -1,8 +1,8 @@
-import os
-from game.game import init_game
+from sources.game.game import init_game
 import argparse
 from io import StringIO
 from contextlib import redirect_stdout
+import os
 
 
 def split(data_to_split):
@@ -23,7 +23,7 @@ class Parse:
         map_idx_start = self.data_to_parse.index("### Grid ###")
         map_idx_end = self.data_to_parse.index("### End Grid ###")
 
-        tmp_map = self.data_to_parse[map_idx_start + 1: map_idx_end]
+        tmp_map = self.data_to_parse[map_idx_start + 1 : map_idx_end]
 
         for y in tmp_map:
             _map.append(split(y))
@@ -75,6 +75,12 @@ class GameInfo:
 
         return f_output
 
+    def init_truck(self, id, x, y):
+        return Truck(id, x, y)
+
+    def init_all_trucks(self):
+        self.trucks.append(self.init_truck(0, 0, 0))
+
     def save_actions(self, actionsFileName, actions):
         """Enregistrement des actions dans un fichier"""
         # Check existance
@@ -114,6 +120,9 @@ class GameInfo:
         self.map_width, self.map_height = parse.parse_map_size()
         self.map = parse.parse_map()
 
+        # On initialise les camions
+        self.init_all_trucks()
+
         print("Seed {0}, Output File {1}".format(self.seed, self.output_filemane))
 
 
@@ -126,6 +135,28 @@ def parse_argument():
     args = parser.parse_args()
 
     return args
+
+
+class Truck:
+    """Class contenant toutes les informations des camions"""
+
+    def __init__(self, id, x, y) -> None:
+        """Constructeur de la class"""
+        self.id = id
+        self.pos_x = x
+        self.pos_y = y
+
+    def action_move(self, x, y):
+        """Deplacement du camion"""
+        action = "MOVE" + " " + str(self.id) + " " + str(x) + " " + str(y)
+
+        return action
+
+    def action_dig(self):
+        """Creuser un cristal"""
+        dig = "DIG" + " " + str(self.id) + " " + str(self.pos_x) + " " + str(self.pos_y)
+
+        return dig
 
 
 if __name__ == "__main__":
