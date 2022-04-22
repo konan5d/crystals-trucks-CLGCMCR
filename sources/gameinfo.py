@@ -4,6 +4,45 @@ from io import StringIO
 from contextlib import redirect_stdout
 
 
+def split(data_to_split):
+    data_splited = []
+    if len(data_to_split):
+        for data in data_to_split:
+            print(data)
+            data_splited.append(data)
+
+    return data_splited
+
+
+class Parse:
+    def __init__(self, data_to_parse):
+        self.data_to_parse = data_to_parse.split("\n")
+
+    def parse_map(self, width, height):
+        _map = []
+        map_idx_start = self.data_to_parse.index("### Grid ###")
+        map_idx_end = self.data_to_parse.index("### End Grid ###")
+
+        tmp_map = self.data_to_parse[map_idx_start + 1 : map_idx_end]
+
+        for y in tmp_map:
+            _map.append(split(y))
+
+        return _map
+
+    def parse_map_size(self):
+        map_size_info = self.data_to_parse[1:3]
+        w = map_size_info[0].split(" ")[1]
+        h = map_size_info[1].split(" ")[1]
+
+        return w, h
+
+    def parse_trucks(self):
+        trucks_info = self.data_to_parse[0]
+
+        return trucks_info.split(" ")[1]
+
+
 class GameInfo:
     """Class contenant toutes les informations du jeu"""
 
@@ -12,7 +51,11 @@ class GameInfo:
         self.seed = arg_seed
         self.output_filemane = arg_filename
 
-        self.read_initiale_information()
+        self.raw_data = ""
+
+        self.map_width = 0
+        self.map_height = 0
+        self.map = 0
 
     def read_initiale_information(self):
         """Lecture des données brutes provenant de init_game"""
@@ -26,10 +69,17 @@ class GameInfo:
         return f_output
 
     def run(self):
+        raw_data = self.read_initiale_information()
+
+        parse = Parse(raw_data)
+
+        self.map_width, self.map_height = parse.parse_map_size()
+
         print("Seed {0}, Output File {1}".format(self.seed, self.output_filemane))
 
 
 def parse_argument():
+    """ "Fonction de lecture des arguments de la ligne de commande"""
     parser = argparse.ArgumentParser(description="Play Crystals vs Trucks")
     parser.add_argument("game_number", type=int, help="Game number")
     parser.add_argument("output_file", type=str, help="Output filename")
