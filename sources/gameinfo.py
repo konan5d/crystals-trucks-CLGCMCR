@@ -88,6 +88,9 @@ class GameInfo:
         self.map_width, self.map_height = parse.parse_map_size()
         self.map = parse.parse_map()
 
+        # On initialise les camions
+        self.init_all_trucks()
+
         print("Seed {0}, Output File {1}".format(self.seed, self.output_filemane))
 
 
@@ -117,9 +120,9 @@ class Truck:
 
         return action
 
-    def action_dig(self, x, y):
+    def action_dig(self):
         """Creuser un cristal"""
-        dig = "DIG" + " " + str(self.id) + " " + str(x) + " " + str(y)
+        dig = "DIG" + " " + str(self.id) + " " + str(self.pos_x) + " " + str(self.pos_y)
 
         return dig
 
