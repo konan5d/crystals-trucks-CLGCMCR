@@ -99,20 +99,21 @@ def parse_argument():
 class Truck:
     """Class contenant toutes les informations des camions"""
 
-    def __init__(self, x, y) -> None:
+    def __init__(self, id, x, y) -> None:
         """Constructeur de la class"""
+        self.id = id
         self.pos_x = x
         self.pos_y = y
 
     def action_move(self, x, y):
         """Deplacement du camion"""
-        action = "MOVE" + " " + str(x) + " " + str(y)
+        action = "MOVE" + " " + str(self.id) + " " + str(x) + " " + str(y)
 
         return action
 
     def action_dig(self, x, y):
         """Creuser un cristal"""
-        dig = "DIG" + " " + str(x) + " " + str(y)
+        dig = "DIG" + " " + str(self.id) + " " + str(x) + " " + str(y)
 
         return dig
 

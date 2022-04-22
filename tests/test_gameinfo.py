@@ -12,12 +12,12 @@ import unittest
 
 class TestCaseTruck(unittest.TestCase):
     def test_move_return_valid_format(self):
-        truck = gameinfo.Truck(0, 0)
-        self.assertEqual(truck.action_move(1, 5), "MOVE 1 5")
+        truck = gameinfo.Truck(1, 0, 0)
+        self.assertEqual(truck.action_move(1, 5), "MOVE 1 1 5")
 
     def test_dig_return_valid_format(self):
-        truck = gameinfo.Truck(0, 0)
-        self.assertEqual(truck.action_dig(4, 5), "DIG 4 5")
+        truck = gameinfo.Truck(6, 0, 0)
+        self.assertEqual(truck.action_dig(4, 5), "DIG 6 4 5")
 
 
 if __name__ == "__main__":
