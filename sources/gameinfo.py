@@ -7,6 +7,7 @@ from contextlib import redirect_stdout
 
 class GameInfo:
     """Class contenant toutes les informations du jeu"""
+
     def __init__(self, arg_seed, arg_filename) -> None:
         """Constructeur de la class"""
         self.seed = arg_seed
