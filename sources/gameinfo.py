@@ -1,5 +1,7 @@
-# import sources.game as game
+from game.game import init_game
 import argparse
+from io import StringIO
+from contextlib import redirect_stdout
 
 
 class GameInfo:
@@ -9,6 +11,19 @@ class GameInfo:
         """Constructeur de la class"""
         self.seed = arg_seed
         self.output_filemane = arg_filename
+
+        self.read_initiale_information()
+
+    def read_initiale_information(self):
+        """Lecture des données brutes provenant de init_game"""
+        f_input = StringIO()
+        with redirect_stdout(f_input):
+            init_game(self.seed)
+        f_output = f_input.getvalue()
+
+        print(f_output)
+
+        return f_output
 
     def run(self):
         print("Seed {0}, Output File {1}".format(self.seed, self.output_filemane))
