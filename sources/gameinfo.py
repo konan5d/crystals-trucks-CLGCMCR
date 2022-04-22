@@ -15,17 +15,16 @@ class GameInfo:
         """Constructeur de la class"""
         pass
 
-
     def save_actions(self, actionsFileName, actions):
         # Check existance
         if os.path.exists(actionsFileName):
             os.remove(actionsFileName)  # Remove if exist
         else:
-            # Create file 
+            # Create file
             CmdFile = open(actionsFileName, "w+")
 
         # TODO insert game info in the output file ---------------------
-        
+
         # TODO insert map in the ouput command file --------------------
         CmdFile.write("###Grid###\n")
 
@@ -35,7 +34,7 @@ class GameInfo:
 
         # Write actions part-------------------------------------------
 
-        CmdFile.write("Start !\n")    # fisrt 
+        CmdFile.write("Start !\n")  # fisrt
 
         # Write all actions
         for i in range(len(actions)):
