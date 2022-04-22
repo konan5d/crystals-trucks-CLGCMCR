@@ -17,7 +17,9 @@ class TestCaseTruck(unittest.TestCase):
 
     def test_dig_return_valid_format(self):
         truck = gameinfo.Truck(6, 0, 0)
-        self.assertEqual(truck.action_dig(4, 5), "DIG 6 4 5")
+        truck.pos_x = 4
+        truck.pos_y = 5
+        self.assertEqual(truck.action_dig(), "DIG 6 4 5")
 
 
 if __name__ == "__main__":
