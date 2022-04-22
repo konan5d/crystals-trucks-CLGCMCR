@@ -1,3 +1,4 @@
+import os
 from game.game import init_game
 import argparse
 from io import StringIO
@@ -22,7 +23,7 @@ class Parse:
         map_idx_start = self.data_to_parse.index("### Grid ###")
         map_idx_end = self.data_to_parse.index("### End Grid ###")
 
-        tmp_map = self.data_to_parse[map_idx_start + 1 : map_idx_end]
+        tmp_map = self.data_to_parse[map_idx_start + 1: map_idx_end]
 
         for y in tmp_map:
             _map.append(split(y))
@@ -73,6 +74,37 @@ class GameInfo:
         print(f_output)
 
         return f_output
+
+    def save_actions(self, actionsFileName, actions):
+        """Enregistrement des actions dans un fichier"""
+        # Check existance
+        CmdFile = None
+        if os.path.exists(actionsFileName):
+            os.remove(actionsFileName)  # Remove if exist
+            CmdFile = open(actionsFileName, "w+")
+        else:
+            # Create file
+            CmdFile = open(actionsFileName, "w+")
+
+        # TODO insert game info in the output file ---------------------
+
+        # TODO insert map in the ouput command file --------------------
+        CmdFile.write("###Grid###\n")
+
+        # insert here using writelines(gameGrid)
+
+        CmdFile.write("###End Grid###\n")
+
+        # Write actions part-------------------------------------------
+
+        CmdFile.write("Start !\n")  # fisrt
+
+        # Write all actions
+        for i in range(len(actions)):
+            CmdFile.write(actions[i] + "\n")
+
+        # Close file to finish
+        CmdFile.close()
 
     def run(self):
         raw_data = self.read_initiale_information()
