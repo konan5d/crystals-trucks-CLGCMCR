@@ -17,8 +17,10 @@ class GameInfo:
 
     def save_actions(self, actionsFileName, actions):
         # Check existance
+        CmdFile = None
         if os.path.exists(actionsFileName):
             os.remove(actionsFileName)  # Remove if exist
+            CmdFile = open(actionsFileName, "w+")
         else:
             # Create file
             CmdFile = open(actionsFileName, "w+")
