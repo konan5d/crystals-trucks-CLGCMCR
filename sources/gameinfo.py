@@ -8,7 +8,6 @@ def split(data_to_split):
     data_splited = []
     if len(data_to_split):
         for data in data_to_split:
-            print(data)
             data_splited.append(data)
 
     return data_splited
@@ -57,6 +56,13 @@ class GameInfo:
         self.map_height = 0
         self.map = 0
 
+        self.nb_turn = 0
+        self.nb_crystals_dig = 0
+
+        self.nb_trucks = 0
+        # TODO : liste d'objet Truck
+        self.trucks = []
+
     def read_initiale_information(self):
         """Lecture des données brutes provenant de init_game"""
         f_input = StringIO()
@@ -72,6 +78,7 @@ class GameInfo:
         raw_data = self.read_initiale_information()
         # Parse data to get game info
         parse = Parse(raw_data)
+        self.nb_trucks = parse.parse_trucks()
         self.map_width, self.map_height = parse.parse_map_size()
         self.map = parse.parse_map()
 
