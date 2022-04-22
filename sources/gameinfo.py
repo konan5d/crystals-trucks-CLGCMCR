@@ -17,13 +17,12 @@ class GameInfo:
 
 
     def save_actions(self, actionsFileName, actions):
-        
         # Check existance
         if os.path.exists(actionsFileName):
             os.remove(actionsFileName)  # Remove if exist
         else:
             # Create file 
-            CmdFile = open(actionsFileName,"w+")
+            CmdFile = open(actionsFileName, "w+")
 
         # TODO insert game info in the output file ---------------------
         
