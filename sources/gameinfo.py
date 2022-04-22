@@ -8,7 +8,6 @@ def split(data_to_split):
     data_splited = []
     if len(data_to_split):
         for data in data_to_split:
-            print(data)
             data_splited.append(data)
 
     return data_splited
@@ -18,7 +17,7 @@ class Parse:
     def __init__(self, data_to_parse):
         self.data_to_parse = data_to_parse.split("\n")
 
-    def parse_map(self, width, height):
+    def parse_map(self):
         _map = []
         map_idx_start = self.data_to_parse.index("### Grid ###")
         map_idx_end = self.data_to_parse.index("### End Grid ###")
@@ -57,6 +56,13 @@ class GameInfo:
         self.map_height = 0
         self.map = 0
 
+        self.nb_turn = 0
+        self.nb_crystals_dig = 0
+
+        self.nb_trucks = 0
+        # TODO : liste d'objet Truck
+        self.trucks = []
+
     def read_initiale_information(self):
         """Lecture des données brutes provenant de init_game"""
         f_input = StringIO()
@@ -70,10 +76,11 @@ class GameInfo:
 
     def run(self):
         raw_data = self.read_initiale_information()
-
+        # Parse data to get game info
         parse = Parse(raw_data)
-
+        self.nb_trucks = parse.parse_trucks()
         self.map_width, self.map_height = parse.parse_map_size()
+        self.map = parse.parse_map()
 
         print("Seed {0}, Output File {1}".format(self.seed, self.output_filemane))
 
