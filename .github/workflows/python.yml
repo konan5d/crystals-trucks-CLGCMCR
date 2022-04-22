@@ -23,10 +23,10 @@ jobs:
           pip install flake8
           flake8 --ignore=E203,E266,E501,W503,F403,F401,E402 -v
       # Execution des tests
-      - name: Test with pytest
-        run: |
-          pip install pytest
-          pytest tests/*.py
+      # - name: Test with pytest
+      #   run: |
+      #     pip install pytest
+      #     pytest tests/*.py
       # Execution coverage
       - name: Generate Report
         run: |
