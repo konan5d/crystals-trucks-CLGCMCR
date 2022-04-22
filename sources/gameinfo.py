@@ -2,6 +2,7 @@ from sources.game.game import init_game
 import argparse
 from io import StringIO
 from contextlib import redirect_stdout
+import os
 
 
 def split(data_to_split):
@@ -79,6 +80,37 @@ class GameInfo:
 
     def init_all_trucks(self):
         self.trucks.append(self.init_truck(0, 0, 0))
+
+    def save_actions(self, actionsFileName, actions):
+        """Enregistrement des actions dans un fichier"""
+        # Check existance
+        CmdFile = None
+        if os.path.exists(actionsFileName):
+            os.remove(actionsFileName)  # Remove if exist
+            CmdFile = open(actionsFileName, "w+")
+        else:
+            # Create file
+            CmdFile = open(actionsFileName, "w+")
+
+        # TODO insert game info in the output file ---------------------
+
+        # TODO insert map in the ouput command file --------------------
+        CmdFile.write("###Grid###\n")
+
+        # insert here using writelines(gameGrid)
+
+        CmdFile.write("###End Grid###\n")
+
+        # Write actions part-------------------------------------------
+
+        CmdFile.write("Start !\n")  # fisrt
+
+        # Write all actions
+        for i in range(len(actions)):
+            CmdFile.write(actions[i] + "\n")
+
+        # Close file to finish
+        CmdFile.close()
 
     def run(self):
         raw_data = self.read_initiale_information()
