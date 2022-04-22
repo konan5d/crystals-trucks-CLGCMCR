@@ -1,4 +1,4 @@
-from game.game import init_game
+from sources.game.game import init_game
 import argparse
 from io import StringIO
 from contextlib import redirect_stdout
@@ -103,18 +103,18 @@ class Truck:
         """Constructeur de la class"""
         self.pos_x = x
         self.pos_y = y
-        
-        # self.nb_trucks = 0
 
     def action_move(self, x, y):
+        """Deplacement du camion"""
+        action = "MOVE" + " " + str(x) + " " + str(y)
 
-        action = "MOVE" + x + y
+        return action
 
-        return action 
+    def action_dig(self, x, y):
+        """Creuser un cristal"""
+        dig = "DIG" + " " + str(x) + " " + str(y)
 
-    def action_dig (self, x, y):
-
-        dig = "DIG" + x + y
+        return dig
 
 
 if __name__ == "__main__":
