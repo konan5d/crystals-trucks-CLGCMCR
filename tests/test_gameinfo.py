@@ -2,7 +2,6 @@
 
 import unittest
 import os
-from xmlrpc.client import boolean
 
 from sources.gameinfo import GameInfo as gi
 
@@ -17,7 +16,8 @@ class GameInfo_Tests(unittest.TestCase):
         if os.path.exists(outfile):
             out = open(outfile, "r")
             content = out.readlines()
-            test = True
+            if content != "":
+                test = True
         else:
             test = False
         self.assertEqual(test, True)  # Compare
