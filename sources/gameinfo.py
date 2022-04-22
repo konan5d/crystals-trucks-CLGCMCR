@@ -74,6 +74,9 @@ class GameInfo:
 
         return f_output
 
+    def init_truck(self):
+        pass
+
     def run(self):
         raw_data = self.read_initiale_information()
         # Parse data to get game info
