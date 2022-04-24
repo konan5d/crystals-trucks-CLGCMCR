@@ -1,8 +1,11 @@
 #  import sources.gameinfo as gameinfo
+import sys
+
+_path = __file__.replace("/tests/test_gameinfo.py", "/sources")
+sys.path[0] = _path
 
 import unittest
 import os
-
 from sources.gameinfo import GameInfo, Truck
 
 

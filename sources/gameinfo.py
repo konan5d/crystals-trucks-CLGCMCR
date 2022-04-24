@@ -1,4 +1,6 @@
-from sources.game.game import init_game
+from game import init_game
+
+# from game.game import init_game
 import argparse
 from io import StringIO
 from contextlib import redirect_stdout
