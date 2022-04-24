@@ -45,6 +45,32 @@ class Parse:
         return trucks_info.split(" ")[1]
 
 
+class Truck:
+    """Class contenant toutes les informations des camions"""
+
+    def __init__(self, id, x, y) -> None:
+        """Constructeur de la class"""
+        self.id = id
+        self.pos_x = x
+        self.pos_y = y
+
+        self.last_turn_played = -1
+
+        self.actions_available = []
+
+    def action_move(self, x, y):
+        """Deplacement du camion"""
+        action = "MOVE" + " " + str(self.id) + " " + str(x) + " " + str(y)
+
+        return action
+
+    def action_dig(self):
+        """Creuser un cristal"""
+        dig = "DIG" + " " + str(self.id) + " " + str(self.pos_x) + " " + str(self.pos_y)
+
+        return dig
+
+
 class GameInfo:
     """Class contenant toutes les informations du jeu"""
 
@@ -135,11 +161,26 @@ class GameInfo:
         self.init_all_trucks()
 
     def is_crystal_available(self, x, y):
-        print(self.map)
         if self.map[x][y] != " ":
             return True
         else:
             return False
+
+    def is_movable(self, tr: Truck, x, y):
+        l_move = []
+        if x + 1 < int(self.map_width):
+            l_move.append(tr.action_move(x + 1, y))
+
+        if x - 1 >= 0:
+            l_move.append(tr.action_move(x - 1, y))
+
+        if y + 1 < int(self.map_height):
+            l_move.append(tr.action_move(x, y + 1))
+
+        if y - 1 >= 0:
+            l_move.append(tr.action_move(x, y - 1))
+
+        return l_move
 
 
 def parse_argument():
@@ -151,30 +192,6 @@ def parse_argument():
     args = parser.parse_args()
 
     return args
-
-
-class Truck:
-    """Class contenant toutes les informations des camions"""
-
-    def __init__(self, id, x, y) -> None:
-        """Constructeur de la class"""
-        self.id = id
-        self.pos_x = x
-        self.pos_y = y
-
-        self.last_turn_played = -1
-
-    def action_move(self, x, y):
-        """Deplacement du camion"""
-        action = "MOVE" + " " + str(self.id) + " " + str(x) + " " + str(y)
-
-        return action
-
-    def action_dig(self):
-        """Creuser un cristal"""
-        dig = "DIG" + " " + str(self.id) + " " + str(self.pos_x) + " " + str(self.pos_y)
-
-        return dig
 
 
 if __name__ == "__main__":
