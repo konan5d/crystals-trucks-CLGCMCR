@@ -112,7 +112,7 @@ class GameInfo:
         # Close file to finish
         CmdFile.close()
 
-    def run(self):
+    def init_game_info(self):
         raw_data = self.read_initiale_information()
         # Parse data to get game info
         parse = Parse(raw_data)
@@ -122,8 +122,6 @@ class GameInfo:
 
         # On initialise les camions
         self.init_all_trucks()
-
-        print("Seed {0}, Output File {1}".format(self.seed, self.output_filemane))
 
 
 def parse_argument():
@@ -164,4 +162,4 @@ if __name__ == "__main__":
     args = parse_argument()
 
     gi = GameInfo(args.game_number, args.output_file)
-    gi.run()
+    gi.init_game_info()
