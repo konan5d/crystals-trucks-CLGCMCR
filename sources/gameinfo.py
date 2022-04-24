@@ -114,7 +114,7 @@ class GameInfo:
     def get_trucks(self):
         return self.trucks
 
-    def save_actions(self, actionsFileName, actions):
+    def save_actions(self, actionsFileName):
         """Enregistrement des actions dans un fichier"""
         # Check existance
         CmdFile = None
@@ -128,31 +128,30 @@ class GameInfo:
         # TODO insert game info in the output file ---------------------
 
         # TODO insert map in the ouput command file --------------------
-        CmdFile.write("###Grid###\n")
+        CmdFile.write(self.raw_data)
+        # CmdFile.write("###Grid###\n")
 
-        # insert here using writelines(gameGrid)
+        # # insert here using writelines(gameGrid)
 
-        CmdFile.write("###End Grid###\n")
+        # CmdFile.write("###End Grid###\n")
 
         # Write actions part-------------------------------------------
 
-        CmdFile.write("Start !\n")  # fisrt
-
         # Write all actions
-        for i in range(len(actions)):
-            CmdFile.write(actions[i] + "\n")
+        for i in range(len(self.actions)):
+            CmdFile.write(self.actions[i] + "\n")
 
         # Close file to finish
         CmdFile.close()
 
     def add_actions(self, action):
-        final_action = str(self.nb_turn) + action
+        final_action = str(self.nb_turn) + " " + action
         self.actions.append(final_action)
 
     def init_game_info(self):
-        raw_data = self.read_initiale_information()
+        self.raw_data = self.read_initiale_information()
         # Parse data to get game info
-        parse = Parse(raw_data)
+        parse = Parse(self.raw_data)
         self.nb_trucks = parse.parse_trucks()
         self.map_width, self.map_height = parse.parse_map_size()
         self.map = parse.parse_map()

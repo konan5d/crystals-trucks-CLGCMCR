@@ -1,4 +1,5 @@
 from gameinfo import Truck, parse_argument, GameInfo
+import random
 
 
 class GamePlay:
@@ -7,21 +8,30 @@ class GamePlay:
         self.game_info = GameInfo(self.args.game_number, self.args.output_file)
         self.game_info.init_game_info()
 
-    def get_truck_actions_available(self, map: list, truck: Truck):
+    def get_truck_actions_available(self, truck: Truck):
         truck.actions_available.clear()
 
         if self.game_info.is_crystal_available(truck.pos_x, truck.pos_y):
             truck.actions_available.append(truck.action_dig())
-        else:
-            print(self.game_info.is_movable(truck, truck.pos_x, truck.pos_y))
 
-    def get_next_trucks_pos(self, truck: Truck):
-        pass
+        truck.actions_available = self.game_info.is_movable(
+            truck, truck.pos_x, truck.pos_y
+        )
+
+    def get_next_trucks_action(self, truck: Truck):
+        self.get_truck_actions_available(truck)
+        print(truck.actions_available)
+
+        return random.choice(truck.actions_available)
 
     def play_trucks(self):
         for truck in self.game_info.get_trucks():
             if truck.last_turn_played != self.game_info.nb_turn:
-                self.get_truck_actions_available([], truck)
+                # self.get_truck_actions_available(truck)
+                tr_action = self.get_next_trucks_action(truck)
+                print("Camion {} play {}".format(truck.id, tr_action))
+
+                self.game_info.add_actions(tr_action)
 
                 truck.last_turn_played += 1
 
@@ -29,6 +39,8 @@ class GamePlay:
 
     def run(self):
         self.play_trucks()
+
+        self.game_info.save_actions("test.txt")
 
 
 if __name__ == "__main__":
