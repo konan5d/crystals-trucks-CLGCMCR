@@ -29,8 +29,7 @@ class GamePlay:
             if truck.last_turn_played != self.game_info.nb_turn:
                 # self.get_truck_actions_available(truck)
                 tr_action = self.get_next_trucks_action(truck)
-                print("Camion {} play {}".format(truck.id, tr_action))
-
+                # print("Camion {} play {}".format(truck.id, tr_action))
                 self.game_info.add_actions(tr_action)
 
                 truck.last_turn_played += 1
@@ -38,8 +37,8 @@ class GamePlay:
         self.game_info.nb_turn += 1
 
     def run(self):
-        self.play_trucks()
-
+        while self.game_info.is_crystal_available_on_map():
+            self.play_trucks()
         self.game_info.save_actions("test.txt")
 
 
