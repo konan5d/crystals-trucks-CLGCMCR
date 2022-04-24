@@ -7,6 +7,9 @@ class GamePlay:
         self.game_info = GameInfo(self.args.game_number, self.args.output_file)
         self.game_info.init_game_info()
 
+    def truck_zig_zag_path(self):
+        pass
+
     def get_next_trucks_pos(self, truck):
         pass
 
