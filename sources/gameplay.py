@@ -7,6 +7,10 @@ class GamePlay:
         self.game_info = GameInfo(self.args.game_number, self.args.output_file)
         self.game_info.init_game_info()
 
+    def run():
+        pass
+
 
 if __name__ == "__main__":
     gp = GamePlay()
+    gp.run()
