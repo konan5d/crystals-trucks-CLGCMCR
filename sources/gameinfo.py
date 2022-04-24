@@ -87,6 +87,7 @@ class GameInfo:
 
         self.nb_turn = 0
         self.nb_crystals_dig = 0
+        self.nb_crystals_to_dig = 0
 
         self.nb_trucks = 0
         # TODO : liste d'objet Truck
@@ -113,6 +114,20 @@ class GameInfo:
 
     def get_trucks(self):
         return self.trucks
+
+    def get_nb_crystals_available(self):
+        total_crystals = 0
+        for y in self.map:
+            total_crystals += y.count("1")
+            total_crystals += y.count("2") * 2
+
+        return total_crystals
+
+    def is_crystal_available_on_map(self):
+        if self.nb_crystals_dig == self.nb_crystals_to_dig:
+            return False
+        else:
+            return True
 
     def save_actions(self, actionsFileName):
         """Enregistrement des actions dans un fichier"""
@@ -145,6 +160,9 @@ class GameInfo:
         CmdFile.close()
 
     def add_actions(self, action):
+        if action.find("DIG") != -1:
+            self.nb_crystals_dig += 1
+
         final_action = str(self.nb_turn) + " " + action
         self.actions.append(final_action)
 
@@ -155,6 +173,8 @@ class GameInfo:
         self.nb_trucks = parse.parse_trucks()
         self.map_width, self.map_height = parse.parse_map_size()
         self.map = parse.parse_map()
+
+        self.nb_crystals_to_dig = self.get_nb_crystals_available()
 
         # On initialise les camions
         self.init_all_trucks()
