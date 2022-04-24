@@ -83,6 +83,9 @@ class GameInfo:
     def init_all_trucks(self):
         self.trucks.append(self.init_truck(0, 0, 0))
 
+    def get_trucks(self):
+        return self.trucks
+
     def save_actions(self, actionsFileName, actions):
         """Enregistrement des actions dans un fichier"""
         # Check existance
@@ -152,6 +155,8 @@ class Truck:
         self.id = id
         self.pos_x = x
         self.pos_y = y
+
+        self.last_turn_played = -1
 
     def action_move(self, x, y):
         """Deplacement du camion"""
