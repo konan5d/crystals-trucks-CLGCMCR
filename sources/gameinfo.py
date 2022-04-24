@@ -119,8 +119,9 @@ class GameInfo:
         # Close file to finish
         CmdFile.close()
 
-    def add_actions(self):
-        pass
+    def add_actions(self, action):
+        final_action = str(self.nb_turn) + action
+        self.actions.append(final_action)
 
     def init_game_info(self):
         raw_data = self.read_initiale_information()
