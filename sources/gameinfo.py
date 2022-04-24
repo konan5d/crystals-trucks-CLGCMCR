@@ -70,6 +70,13 @@ class Truck:
 
         return dig
 
+    def set_move(self, action):
+        if action.find("MOVE") != -1:
+            tmp_action = action.split(" ")
+            print(tmp_action)
+            self.pos_x = int(tmp_action[2])
+            self.pos_y = int(tmp_action[3])
+
 
 class GameInfo:
     """Class contenant toutes les informations du jeu"""
@@ -180,6 +187,7 @@ class GameInfo:
         self.init_all_trucks()
 
     def is_crystal_available(self, x, y):
+        # print("is_crys_avai x {} y {}".format(x, y))
         if self.map[x][y] != " ":
             return True
         else:
@@ -187,13 +195,13 @@ class GameInfo:
 
     def is_movable(self, tr: Truck, x, y):
         l_move = []
-        if x + 1 < int(self.map_width):
+        if x + 1 < int(self.map_height):
             l_move.append(tr.action_move(x + 1, y))
 
         if x - 1 >= 0:
             l_move.append(tr.action_move(x - 1, y))
 
-        if y + 1 < int(self.map_height):
+        if y + 1 < int(self.map_width):
             l_move.append(tr.action_move(x, y + 1))
 
         if y - 1 >= 0:
