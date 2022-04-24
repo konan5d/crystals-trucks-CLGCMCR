@@ -125,6 +125,13 @@ class GameInfo:
         # On initialise les camions
         self.init_all_trucks()
 
+    def is_crystal_available(self, x, y):
+        print(self.map)
+        if self.map[x][y] != " ":
+            return True
+        else:
+            return False
+
 
 def parse_argument():
     """ "Fonction de lecture des arguments de la ligne de commande"""
