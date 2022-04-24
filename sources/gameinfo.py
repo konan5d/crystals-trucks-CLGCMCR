@@ -66,6 +66,8 @@ class GameInfo:
         # TODO : liste d'objet Truck
         self.trucks = []
 
+        self.actions = []
+
     def read_initiale_information(self):
         """Lecture des données brutes provenant de init_game"""
         f_input = StringIO()
@@ -116,6 +118,9 @@ class GameInfo:
 
         # Close file to finish
         CmdFile.close()
+
+    def add_actions(self):
+        pass
 
     def init_game_info(self):
         raw_data = self.read_initiale_information()
