@@ -174,7 +174,14 @@ class GameInfo:
             tmp_pos_x = int(self.map_height) - int(tmp_action[2])
             tmp_pos_y = int(tmp_action[3])
 
-            action_final = "DIG " + str(tmp_action[1]) + " " + str(tmp_pos_x) + " " + str(tmp_pos_y)
+            action_final = (
+                "DIG "
+                + str(tmp_action[1])
+                + " "
+                + str(tmp_pos_x)
+                + " "
+                + str(tmp_pos_y)
+            )
 
             self.update_map(int(tmp_action[2]), int(tmp_action[3]))
 
@@ -189,10 +196,17 @@ class GameInfo:
 
             print("TMP POS {} {}".format(tmp_pos_x, tmp_pos_y))
 
-            action_final = "MOVE " + str(tmp_action[1]) + " " + str(tmp_pos_x) + " " + str(tmp_pos_y)
+            action_final = (
+                "MOVE "
+                + str(tmp_action[1])
+                + " "
+                + str(tmp_pos_x)
+                + " "
+                + str(tmp_pos_y)
+            )
 
-            #action.replace(tmp_action[2], str(tmp_pos_x))
-            #action.replace(tmp_action[3], str(tmp_pos_y))
+            # action.replace(tmp_action[2], str(tmp_pos_x))
+            # action.replace(tmp_action[3], str(tmp_pos_y))
 
             print("ACTION {}".format(action_final))
 
@@ -237,9 +251,8 @@ class GameInfo:
 
         return l_move
 
-    # TODO update map method
     def update_map(self, x_truck, y_truck):
-        if(self.map[x_truck][y_truck] != " "):
+        if self.map[x_truck][y_truck] != " ":
             tmp_crystal_value = int(self.map[x_truck][y_truck])
             tmp_crystal_value -= tmp_crystal_value
 
@@ -247,7 +260,6 @@ class GameInfo:
                 self.map[x_truck][y_truck] = " "
             else:
                 self.map[x_truck][y_truck] = str(tmp_crystal_value)
-
 
 
 def parse_argument():
