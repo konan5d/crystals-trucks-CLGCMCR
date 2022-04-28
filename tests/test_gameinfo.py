@@ -9,12 +9,11 @@ import os
 from gameinfo import GameInfo, Truck
 
 
-class GameInfo_Tests(unittest.TestCase):
+class TestSaveAction(unittest.TestCase):
     def test_save_actions(self):
         g = GameInfo(1, "test.txt")
         outfile = g.output_filemane  # Init file
-        test_content = ["content"]  # Init content
-        g.save_actions(outfile, test_content)  # Save test file
+        g.save_actions(outfile)  # Save test file
         test = False
         if os.path.exists(outfile):
             out = open(outfile, "r")
