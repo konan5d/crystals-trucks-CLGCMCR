@@ -33,9 +33,12 @@ class GamePlay:
             return random.choice(truck.actions_available)
 
     def play_trucks(self):
+        print("##### TURN {} #####".format(self.game_info.nb_turn))
+        print("##### CRYSTAL LEFT {} ".format(self.game_info.nb_crystals_dig))
         for truck in self.game_info.get_trucks():
             if truck.last_turn_played != self.game_info.nb_turn:
                 # self.get_truck_actions_available(truck)
+                print("Play truck nb={}".format(truck.id))
                 tr_action = self.get_next_trucks_action(truck)
                 truck.set_move(
                     tr_action, self.game_info.map_height, self.game_info.map_width
@@ -49,10 +52,13 @@ class GamePlay:
 
     def run(self):
         while (
-            self.game_info.is_crystal_available_on_map() and self.game_info.nb_turn < 25
+            self.game_info.is_crystal_available_on_map()
+            and self.game_info.nb_turn < 1001
         ):
             self.play_trucks()
         self.game_info.save_actions(self.game_info.output_filemane)
+
+        print("END")
 
 
 if __name__ == "__main__":
