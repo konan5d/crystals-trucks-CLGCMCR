@@ -42,7 +42,7 @@ class GamePlay:
             self.game_info.is_crystal_available_on_map() and self.game_info.nb_turn < 25
         ):
             self.play_trucks()
-        self.game_info.save_actions("test.txt")
+        self.game_info.save_actions(self.game_info.output_filemane)
 
 
 if __name__ == "__main__":
