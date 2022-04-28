@@ -1,4 +1,6 @@
-from sources.game.game import init_game
+from game import init_game
+
+# from game.game import init_game
 import argparse
 from io import StringIO
 from contextlib import redirect_stdout
@@ -43,6 +45,39 @@ class Parse:
         return trucks_info.split(" ")[1]
 
 
+class Truck:
+    """Class contenant toutes les informations des camions"""
+
+    def __init__(self, id, x, y) -> None:
+        """Constructeur de la class"""
+        self.id = id
+        self.pos_x = x
+        self.pos_y = y
+
+        self.last_turn_played = -1
+
+        self.actions_available = []
+
+    def action_move(self, x, y):
+        """Deplacement du camion"""
+        action = "MOVE" + " " + str(self.id) + " " + str(x) + " " + str(y)
+
+        return action
+
+    def action_dig(self):
+        """Creuser un cristal"""
+        dig = "DIG" + " " + str(self.id) + " " + str(self.pos_x) + " " + str(self.pos_y)
+
+        return dig
+
+    def set_move(self, action):
+        if action.find("MOVE") != -1:
+            tmp_action = action.split(" ")
+            print(tmp_action)
+            self.pos_x = int(tmp_action[2])
+            self.pos_y = int(tmp_action[3])
+
+
 class GameInfo:
     """Class contenant toutes les informations du jeu"""
 
@@ -59,10 +94,13 @@ class GameInfo:
 
         self.nb_turn = 0
         self.nb_crystals_dig = 0
+        self.nb_crystals_to_dig = 0
 
         self.nb_trucks = 0
         # TODO : liste d'objet Truck
         self.trucks = []
+
+        self.actions = []
 
     def read_initiale_information(self):
         """Lecture des données brutes provenant de init_game"""
@@ -81,7 +119,24 @@ class GameInfo:
     def init_all_trucks(self):
         self.trucks.append(self.init_truck(0, 0, 0))
 
-    def save_actions(self, actionsFileName, actions):
+    def get_trucks(self):
+        return self.trucks
+
+    def get_nb_crystals_available(self):
+        total_crystals = 0
+        for y in self.map:
+            total_crystals += y.count("1")
+            total_crystals += y.count("2") * 2
+
+        return total_crystals
+
+    def is_crystal_available_on_map(self):
+        if self.nb_crystals_dig == self.nb_crystals_to_dig:
+            return False
+        else:
+            return True
+
+    def save_actions(self, actionsFileName):
         """Enregistrement des actions dans un fichier"""
         # Check existance
         CmdFile = None
@@ -95,36 +150,64 @@ class GameInfo:
         # TODO insert game info in the output file ---------------------
 
         # TODO insert map in the ouput command file --------------------
-        CmdFile.write("###Grid###\n")
+        CmdFile.write(self.raw_data)
+        # CmdFile.write("###Grid###\n")
 
-        # insert here using writelines(gameGrid)
+        # # insert here using writelines(gameGrid)
 
-        CmdFile.write("###End Grid###\n")
+        # CmdFile.write("###End Grid###\n")
 
         # Write actions part-------------------------------------------
 
-        CmdFile.write("Start !\n")  # fisrt
-
         # Write all actions
-        for i in range(len(actions)):
-            CmdFile.write(actions[i] + "\n")
+        for i in range(len(self.actions)):
+            CmdFile.write(self.actions[i] + "\n")
 
         # Close file to finish
         CmdFile.close()
 
-    def run(self):
-        """Test"""
-        raw_data = self.read_initiale_information()
+    def add_actions(self, action):
+        if action.find("DIG") != -1:
+            self.nb_crystals_dig += 1
+
+        final_action = str(self.nb_turn) + " " + action
+        self.actions.append(final_action)
+
+    def init_game_info(self):
+        self.raw_data = self.read_initiale_information()
         # Parse data to get game info
-        parse = Parse(raw_data)
+        parse = Parse(self.raw_data)
         self.nb_trucks = parse.parse_trucks()
         self.map_width, self.map_height = parse.parse_map_size()
         self.map = parse.parse_map()
 
+        self.nb_crystals_to_dig = self.get_nb_crystals_available()
+
         # On initialise les camions
         self.init_all_trucks()
 
-        print("Seed {0}, Output File {1}".format(self.seed, self.output_filemane))
+    def is_crystal_available(self, x, y):
+        # print("is_crys_avai x {} y {}".format(x, y))
+        if self.map[x][y] != " ":
+            return True
+        else:
+            return False
+
+    def is_movable(self, tr: Truck, x, y):
+        l_move = []
+        if x + 1 < int(self.map_height):
+            l_move.append(tr.action_move(x + 1, y))
+
+        if x - 1 >= 0:
+            l_move.append(tr.action_move(x - 1, y))
+
+        if y + 1 < int(self.map_width):
+            l_move.append(tr.action_move(x, y + 1))
+
+        if y - 1 >= 0:
+            l_move.append(tr.action_move(x, y - 1))
+
+        return l_move
 
 
 def parse_argument():
@@ -138,31 +221,9 @@ def parse_argument():
     return args
 
 
-class Truck:
-    """Class contenant toutes les informations des camions"""
-
-    def __init__(self, id, x, y) -> None:
-        """Constructeur de la class"""
-        self.id = id
-        self.pos_x = x
-        self.pos_y = y
-
-    def action_move(self, x, y):
-        """Deplacement du camion"""
-        action = "MOVE" + " " + str(self.id) + " " + str(x) + " " + str(y)
-
-        return action
-
-    def action_dig(self):
-        """Creuser un cristal"""
-        dig = "DIG" + " " + str(self.id) + " " + str(self.pos_x) + " " + str(self.pos_y)
-
-        return dig
-
-
 if __name__ == "__main__":
 
     args = parse_argument()
 
     gi = GameInfo(args.game_number, args.output_file)
-    gi.run()
+    gi.init_game_info()

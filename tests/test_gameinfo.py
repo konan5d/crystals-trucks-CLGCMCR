@@ -1,9 +1,12 @@
 #  import sources.gameinfo as gameinfo
+import sys
+
+_path = __file__.replace("/tests/test_gameinfo.py", "/sources")
+sys.path[0] = _path
 
 import unittest
 import os
-
-from sources.gameinfo import GameInfo, Truck
+from gameinfo import GameInfo, Truck
 
 
 class GameInfo_Tests(unittest.TestCase):
@@ -41,6 +44,18 @@ class TestCaseTruck(unittest.TestCase):
         truck.pos_x = 4
         truck.pos_y = 5
         self.assertEqual(truck.action_dig(), "DIG 6 4 5")
+
+
+class TestCaseCrystal(unittest.TestCase):
+    def test_is_crystal_available_true(self):
+        gi = GameInfo(2, "test.txt")
+        gi.init_game_info()
+        self.assertEqual(gi.is_crystal_available(0, 1), True)
+
+    def test_is_crystal_available_false(self):
+        gi = GameInfo(2, "test.txt")
+        gi.init_game_info()
+        self.assertEqual(gi.is_crystal_available(0, 0), False)
 
 
 if __name__ == "__main__":

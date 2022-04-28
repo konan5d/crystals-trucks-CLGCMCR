@@ -28,9 +28,10 @@ jobs:
       #     pip install pytest
       #     pytest tests/*.py
       # Execution coverage
-      - name: Generate Report
+      - name: Unittest and code coverage report
         run: |
           pip install coverage
-          coverage run -m unittest
+          coverage run -m unittest -v tests/*.py
+          coverage report -m
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
