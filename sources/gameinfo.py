@@ -117,7 +117,9 @@ class GameInfo:
         return Truck(id, x, y)
 
     def init_all_trucks(self):
-        self.trucks.append(self.init_truck(0, 0, 0))
+        # Load all trucks in the gmae
+        for i in range(0, int(self.nb_trucks)):
+            self.trucks.append(self.init_truck(i, 0, i))
 
     def get_trucks(self):
         return self.trucks
