@@ -21,9 +21,17 @@ jobs:
       - name: Lint with flake8
         run: |
           pip install flake8
-          flake8 .
+          flake8 --ignore=E203,E266,E501,W503,F403,F401,E402 -v
       # Execution des tests
-      - name: Test with pytest
+      # - name: Test with pytest
+      #   run: |
+      #     pip install pytest
+      #     pytest tests/*.py
+      # Execution coverage
+      - name: Unittest and code coverage report
         run: |
-          pip install pytest
-          pytest tests/*.py
+          pip install coverage
+          coverage run -m unittest -v tests/*.py
+          coverage report -m
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v2
