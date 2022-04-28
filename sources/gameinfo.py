@@ -70,7 +70,7 @@ class Truck:
 
         return dig
 
-    def set_move(self, action):
+    def set_move(self, action, x_off, y_off):
         if action.find("MOVE") != -1:
             tmp_action = action.split(" ")
             print(tmp_action)
@@ -119,7 +119,7 @@ class GameInfo:
     def init_all_trucks(self):
         # Load all trucks in the gmae
         for i in range(0, int(self.nb_trucks)):
-            self.trucks.append(self.init_truck(i, 0, i))
+            self.trucks.append(self.init_truck(0, int(self.map_height) - 1, 0))
 
     def get_trucks(self):
         return self.trucks
@@ -170,9 +170,49 @@ class GameInfo:
 
     def add_actions(self, action):
         if action.find("DIG") != -1:
+            tmp_action = action.split(" ")
             self.nb_crystals_dig += 1
 
-        final_action = str(self.nb_turn) + " " + action
+            tmp_pos_x = int(self.map_height) - int(tmp_action[2])
+            tmp_pos_y = int(tmp_action[3])
+
+            action_final = (
+                "DIG "
+                + str(tmp_action[1])
+                + " "
+                + str(tmp_pos_x)
+                + " "
+                + str(tmp_pos_y)
+            )
+
+            self.update_map(int(tmp_action[2]), int(tmp_action[3]))
+
+        elif action.find("MOVE") != -1:
+            print(action)
+            tmp_action = action.split(" ")
+
+            # tmp_pos_x = int(self.map_height) - int(tmp_action[2])
+
+            tmp_pos_x = int(self.map_height) - int(tmp_action[2])
+            tmp_pos_y = int(tmp_action[3])
+
+            print("TMP POS {} {}".format(tmp_pos_x, tmp_pos_y))
+
+            action_final = (
+                "MOVE "
+                + str(tmp_action[1])
+                + " "
+                + str(tmp_pos_x)
+                + " "
+                + str(tmp_pos_y)
+            )
+
+            # action.replace(tmp_action[2], str(tmp_pos_x))
+            # action.replace(tmp_action[3], str(tmp_pos_y))
+
+            print("ACTION {}".format(action_final))
+
+        final_action = str(self.nb_turn) + " " + action_final
         self.actions.append(final_action)
 
     def init_game_info(self):
@@ -189,7 +229,9 @@ class GameInfo:
         self.init_all_trucks()
 
     def is_crystal_available(self, x, y):
-        # print("is_crys_avai x {} y {}".format(x, y))
+        print("is_crys_avai x {} y {}".format(x, y))
+
+        print("is_crys_avai x {} y {} ({})".format(x, y, self.map[x][y]))
         if self.map[x][y] != " ":
             return True
         else:
@@ -210,6 +252,16 @@ class GameInfo:
             l_move.append(tr.action_move(x, y - 1))
 
         return l_move
+
+    def update_map(self, x_truck, y_truck):
+        if self.map[x_truck][y_truck] != " ":
+            tmp_crystal_value = int(self.map[x_truck][y_truck])
+            tmp_crystal_value -= tmp_crystal_value
+
+            if tmp_crystal_value == 0:
+                self.map[x_truck][y_truck] = " "
+            else:
+                self.map[x_truck][y_truck] = str(tmp_crystal_value)
 
 
 def parse_argument():
